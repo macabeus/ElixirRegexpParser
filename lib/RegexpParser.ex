@@ -21,7 +21,7 @@ defmodule RegexpParser do
       both(
         backslash(), parser_backslash_letter(), &("#{&1}#{&2}")
       ),
-      quantifier()
+      parser_quantifier()
     )
   end
 end
