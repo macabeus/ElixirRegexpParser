@@ -5,7 +5,7 @@ defmodule RegexpParser do
   import RegexpParser.List
 
   def parse(regexp) do
-    Combine.parse(regexp,
+    [p] = Combine.parse(regexp,
       many(
         choice([
           parser_list(),
@@ -14,5 +14,7 @@ defmodule RegexpParser do
         ])
       )
     )
+
+    p
   end
 end
