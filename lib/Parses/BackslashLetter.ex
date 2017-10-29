@@ -8,17 +8,22 @@ defmodule RegexpParser.BackslashLetter do
 
   @metacharacters [?s, ?S, ?d, ?D, ?w, ?W, ?b, ?B]
 
+  @enforce_keys [:backslash_letter, :quantifier]
+  defstruct [:backslash_letter, :quantifier]
+
   def parser_backslashletter() do
-    pair_both(
-      both(
-        char("\\"), backslash_letter(), &("#{&1}#{&2}")
-      ),
-      parser_quantifier()
+    map(
+      sequence([
+        ignore(char("\\")),
+        backslashletter(),
+        parser_quantifier()
+      ]),
+      fn [l, q] -> %RegexpParser.BackslashLetter{backslash_letter: l, quantifier: q} end
     )
   end
 
   # Parser for valids letters at backslash metacharacter
-  defparser backslash_letter(%ParserState{status: :ok, column: col, input: <<c::utf8,rest::binary>>, results: results} = state)
+  defparser backslashletter(%ParserState{status: :ok, column: col, input: <<c::utf8,rest::binary>>, results: results} = state)
     when c in @metacharacters do
       character = case c do
         ?s -> "s"
@@ -32,10 +37,10 @@ defmodule RegexpParser.BackslashLetter do
       end
       %{state | :column => col + 1, :input => rest, :results => [character|results]}
   end
-  defp backslash_letter_impl(%ParserState{status: :ok, line: line, column: col, input: <<c::utf8,_::binary>>} = state) do
+  defp backslashletter_impl(%ParserState{status: :ok, line: line, column: col, input: <<c::utf8,_::binary>>} = state) do
     %{state | :status => :error, :error => "Expected a metacharacter found `\\#{<<c::utf8>>}` at line #{line}, column #{col}."}
   end
-  defp backslash_letter_impl(%ParserState{status: :ok, input: <<>>} = state) do
+  defp backslashletter_impl(%ParserState{status: :ok, input: <<>>} = state) do
     %{state | :status => :error, :error => "Expected a metacharacter, but hit end of input."}
   end
 end
