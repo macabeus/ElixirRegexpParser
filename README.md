@@ -4,7 +4,7 @@
   </a>
 </p>
 
-A simple project (for study) to parser regexp with [combine library](https://github.com/bitwalker/combine).
+A simple project (for studying purposes) to parse regex with [combine library](https://github.com/bitwalker/combine).
 
 ```elixir
 RegexpParser.parse("elixir\s[^abc]+\\w?\\W{2}")
