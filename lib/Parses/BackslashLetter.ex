@@ -8,7 +8,7 @@ defmodule RegexpParser.BackslashLetter do
 
   @metacharacters [?s, ?S, ?d, ?D, ?w, ?W, ?b, ?B]
 
-  @enforce_keys [:backslash_letter, :quantifier]
+  @enforce_keys [:backslash_letter]
   defstruct [:backslash_letter, :quantifier]
 
   def parser_backslashletter() do
@@ -18,7 +18,10 @@ defmodule RegexpParser.BackslashLetter do
         backslashletter(),
         parser_quantifier()
       ]),
-      fn [l, q] -> %RegexpParser.BackslashLetter{backslash_letter: l, quantifier: q} end
+      fn
+        [l, q] -> %RegexpParser.BackslashLetter{backslash_letter: l, quantifier: q}
+        [l] -> %RegexpParser.BackslashLetter{backslash_letter: l}
+      end
     )
   end
 
