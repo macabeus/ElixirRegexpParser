@@ -5,14 +5,13 @@ defmodule RegexpParser.BackslashLetter do
   use Combine.Helpers
   alias Combine.ParserState
   import RegexpParser.Quantifier
-  import RegexpParser.Backslash
 
   @metacharacters [?s, ?S, ?d, ?D, ?w, ?W, ?b, ?B]
 
   def parser_backslashletter() do
     pair_both(
       both(
-        backslash(), backslash_letter(), &("#{&1}#{&2}")
+        char("\\"), backslash_letter(), &("#{&1}#{&2}")
       ),
       parser_quantifier()
     )
