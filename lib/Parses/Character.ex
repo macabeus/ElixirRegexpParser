@@ -1,5 +1,5 @@
 defmodule RegexpParser.Character do
-  @moduledoc "Parse a single character, like literally char or dot metacharacter."
+  @moduledoc "Parse a literal character."
 
   use Combine
   use Combine.Helpers
