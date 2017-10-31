@@ -3,6 +3,7 @@ defmodule RegexpParser do
 
   import RegexpParser.BackslashLetter
   import RegexpParser.List
+  import RegexpParser.Dot
   import RegexpParser.Character
 
   def parse(regexp) do
@@ -11,6 +12,7 @@ defmodule RegexpParser do
         choice([
           parser_list(),
           parser_backslashletter(),
+          parser_dot(),
           parser_character()
         ])
       )
