@@ -3,6 +3,7 @@ defmodule RegexpParser do
 
   import RegexpParser.BackslashLetter
   import RegexpParser.List
+  import RegexpParser.Character
 
   def parse(regexp) do
     [p] = Combine.parse(regexp,
@@ -10,7 +11,7 @@ defmodule RegexpParser do
         choice([
           parser_list(),
           parser_backslashletter(),
-          char()
+          parser_character()
         ])
       )
     )
